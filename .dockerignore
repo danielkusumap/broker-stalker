@@ -1,0 +1,48 @@
+# dependencies (dipasang di dalam image)
+node_modules/
+.pnpm-store/
+
+# build output (dibuat ulang saat build)
+.next/
+out/
+dist/
+build/
+.vercel/
+
+# rahasia — jangan pernah masuk build context
+.env
+.env.*
+.env.local
+!.env.example
+
+# database lokal (dipakai lewat bind mount ./data)
+data/
+
+# catatan pribadi & R&D — tidak perlu ikut ke image
+AGENTS.md
+broker stalkerv2.txt
+rnd/
+plan.md
+*.md
+
+# docker config (tidak dipakai di dalam container)
+Dockerfile*
+.dockerignore
+docker-compose*.yml
+compose*.yml
+nginx/
+
+# editor & OS
+.git/
+.gitignore
+.gitattributes
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# misc
+coverage/
+*.log
+*.tsbuildinfo
+next-env.d.ts

@@ -1,0 +1,48 @@
+name: broker-stalker
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: broker-stalker:latest
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      NODE_ENV: production
+      PORT: "3000"
+      HOSTNAME: 0.0.0.0
+      # Override path lokal (./data/market.db) ke path di dalam container.
+      BS2_DB_PATH: /app/data/market.db
+    volumes:
+      # Database SQLite persisten: ./data di host <-> /app/data di container.
+      - ./data:/app/data
+    expose:
+      - "3000"
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - "fetch('http://127.0.0.1:3000/').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: broker-stalker-nginx:latest
+    restart: unless-stopped
+    depends_on:
+      app:
+        condition: service_healthy
+    environment:
+      # htpasswd dibuat saat container start dari variabel ini.
+      BASIC_AUTH_USER: ${BASIC_AUTH_USER:?BASIC_AUTH_USER belum diset di .env}
+      BASIC_AUTH_PASSWORD: ${BASIC_AUTH_PASSWORD:?BASIC_AUTH_PASSWORD belum diset di .env}
+    ports:
+      - "${APP_PORT:-9101}:80"

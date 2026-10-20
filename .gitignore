@@ -1,0 +1,58 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env files — nyata TIDAK ikut git, template-nya ikut
+.env
+.env.*
+!.env.example
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# database lokal Broker Stalker v2 (dibuat oleh seed)
+/data/*.db
+/data/*.db-wal
+/data/*.db-shm
+
+# markdown — hanya README.md root yang ikut git
+*.md
+!/README.md
+
+# catatan pribadi & RnD (sengaja tidak dipush)
+/AGENTS.md
+/broker stalkerv2.txt
+/rnd/
+/plan.md
