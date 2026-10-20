@@ -520,7 +520,7 @@ export default function BrokerStalkerPage() {
     if (!data || !results.length) return;
     let store = {};
     try {
-      store = JSON.parse(localStorage.getItem("srjum.stalker.snapshots") || "{}");
+      store = JSON.parse(localStorage.getItem("brokerstalker.stalker.snapshots") || "{}");
     } catch {
       store = {};
     }
@@ -535,7 +535,7 @@ export default function BrokerStalkerPage() {
       next[k] = { fase: r.fase, date: today || data.end };
     }
     try {
-      localStorage.setItem("srjum.stalker.snapshots", JSON.stringify(next));
+      localStorage.setItem("brokerstalker.stalker.snapshots", JSON.stringify(next));
     } catch {
       /* private mode / storage penuh */
     }

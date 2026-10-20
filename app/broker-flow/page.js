@@ -6,7 +6,7 @@ import { idxGet, isoDaysAgo, todayIso, readCache, writeCache } from "../../lib/i
 import { formatRp, formatShares, formatPrice, formatNumber } from "../../lib/brokerMath";
 import styles from "./broker-flow.module.css";
 
-const WATCH_KEY = "srjum.watchlist";
+const WATCH_KEY = "brokerstalker.watchlist";
 const CACHE_TTL_MS = 15 * 60 * 1000; // hasil per broker+ticker+rentang tahan 15 menit
 
 function parseTickers(text) {

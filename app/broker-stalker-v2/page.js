@@ -15,7 +15,7 @@ import {
 import { formatNumber, formatPrice, formatPct } from "../../lib/brokerMath";
 import styles from "./broker-stalker-v2.module.css";
 
-const STORAGE = "srjum.bs2.session.v1";
+const STORAGE = "brokerstalker.bs2.session.v1";
 
 function todayIso() {
   return new Date().toISOString().slice(0, 10);
@@ -52,7 +52,7 @@ async function getJson(url) {
 
 export default function BrokerStalkerV2Page() {
   const [ready, setReady] = useState(false);
-  const [ticker, setTicker] = useState("TPIA");
+  const [ticker, setTicker] = useState("");
   const [initType, setInitType] = useState("Init");
   const [initStart, setInitStart] = useState("");
   const [initEnd, setInitEnd] = useState("");
@@ -132,7 +132,7 @@ export default function BrokerStalkerV2Page() {
         ? { type: initType, start: initStart, end: initEnd }
         : { type: addType, start: addStart, end: addEnd };
     if (!/^[A-Z0-9]{4}$/.test(code)) {
-      setError("Kode saham harus 4 huruf/angka (contoh: TPIA).");
+      setError("Kode saham harus 4 huruf/angka (contoh: BBCA).");
       return;
     }
     if (!stage.start || !stage.end || stage.start > stage.end) {
@@ -348,21 +348,9 @@ export default function BrokerStalkerV2Page() {
                 <p className={styles.cardSub}>
                   Pilih rentang yang dijadikan dasar tracking. Untuk tahap pertama gunakan
                   <b> Inisialisasi</b>; label ATH/Bullish/Bearish/Distribusi dipakai untuk
-                  tahap-tahap berikutnya. Contoh TPIA: 29 Sep – 8 Okt 2026.
+                  tahap-tahap berikutnya.
                 </p>
               </div>
-              <button
-                type="button"
-                className={styles.btnGhost}
-                onClick={() => {
-                  setTicker("TPIA");
-                  setInitType("Init");
-                  setInitStart("2026-09-29");
-                  setInitEnd("2026-10-08");
-                }}
-              >
-                Isi contoh TPIA
-              </button>
             </div>
 
             <div className={styles.form}>
@@ -373,7 +361,7 @@ export default function BrokerStalkerV2Page() {
                   value={ticker}
                   maxLength={4}
                   onChange={(e) => setTicker(e.target.value.toUpperCase())}
-                  placeholder="TPIA"
+                  placeholder="BBCA"
                 />
               </label>
               <label className={styles.field}>

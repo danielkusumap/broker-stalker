@@ -32,7 +32,7 @@ export default function SideMenu() {
     const next = theme === "dark" ? "light" : "dark";
     document.documentElement.setAttribute("data-theme", next);
     try {
-      localStorage.setItem("srjum.theme", next);
+      localStorage.setItem("brokerstalker.theme", next);
     } catch {
       /* storage penuh / private mode */
     }
@@ -43,7 +43,7 @@ export default function SideMenu() {
     <aside className={styles.sidebar}>
       <div className={styles.brand}>
         <span className={styles.brandMark}>📈</span>
-        <span className={styles.brandText}>SRJUM Stock</span>
+        <span className={styles.brandText}>Broker Stalker</span>
       </div>
       <nav className={styles.nav}>
         {NAV.map((item) => {

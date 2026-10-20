@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "Broker Flow — SRJUM Stock",
+  title: "Broker Flow — Broker Stalker",
   description:
     "Mode balik: lacak 1 kode broker lintas banyak emitens — net value, arah 5 hari terakhir, dan sinyal akumulasi/distribusi.",
 };

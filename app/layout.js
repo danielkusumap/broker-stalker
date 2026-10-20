@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "SRJUM Stock — Tools Analisa Saham IDX",
+  title: "Broker Stalker — Tools Analisa Saham IDX",
   description:
     "Tools analisa saham IDX: Broker Stalker (lacak jejak broker) dan lainnya. Data: IDX Edge PRO.",
 };
@@ -30,7 +30,7 @@ export default function RootLayout({ children }) {
         <script
           dangerouslySetInnerHTML={{
             __html:
-              'try{var t=localStorage.getItem("srjum.theme");if(t)document.documentElement.setAttribute("data-theme",t);else document.documentElement.setAttribute("data-theme","dark")}catch(e){document.documentElement.setAttribute("data-theme","dark")}',
+              'try{var t=localStorage.getItem("brokerstalker.theme");if(t)document.documentElement.setAttribute("data-theme",t);else document.documentElement.setAttribute("data-theme","dark")}catch(e){document.documentElement.setAttribute("data-theme","dark")}',
           }}
         />
       </head>

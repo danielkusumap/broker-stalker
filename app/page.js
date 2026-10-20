@@ -62,7 +62,7 @@ export default function Home() {
   return (
     <div className={styles.page}>
       <header className={styles.header}>
-        <h1 className={styles.title}>SRJUM Stock</h1>
+        <h1 className={styles.title}>Broker Stalker</h1>
         <p className={styles.sub}>
           Tools analisa saham IDX berbasis data bandarmologi &amp; teknikal.
           Sumber data: IDX Edge PRO.
