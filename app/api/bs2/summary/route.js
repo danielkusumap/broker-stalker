@@ -1,4 +1,4 @@
-import { getSummary, saveSummary, getHistory, saveHistory, getClose } from "../../../../lib/bs2/db";
+import { getSummary, saveSummary, getHistory, saveHistory, getClose, dbPath } from "../../../../lib/bs2/db";
 import { fetchSummary, fetchHistory } from "../../../../lib/bs2/upstream";
 
 const isCode = (v) => /^[A-Z0-9]{4}$/.test(v || "");
@@ -37,9 +37,17 @@ export async function GET(request) {
     if (!history) {
       const rows = await fetchHistory(code, start, end);
       if (rows.length) saveHistory(code, rows);
-      history = getHistory(code, start, end);
+      // Kalau cache mati, tetap pakai hasil API apa adanya.
+      history = rows.length ? rows : getHistory(code, start, end);
     }
-    const last = getClose(code, start, end);
+
+    // Ambil close dari cache; kalau cache tidak tersedia, hitung dari riwayat.
+    let last = getClose(code, start, end);
+    if (!last && history?.length) {
+      const sorted = [...history].sort((a, b) => (a.date < b.date ? -1 : 1));
+      const tail = sorted[sorted.length - 1];
+      last = { date: tail.date, close: tail.close ?? null };
+    }
 
     return Response.json({
       code,
@@ -49,10 +57,17 @@ export async function GET(request) {
       close_date: last?.date ?? null,
       brokers,
       source,
+      db: dbPath() || "nonaktif",
     });
   } catch (err) {
+    console.error(`[bs2/summary] ${code} ${start}..${end}: ${err?.message || err}`);
     return Response.json(
-      { error: err.message || "Gagal memuat data broker." },
+      {
+        error: err.message || "Gagal memuat data broker.",
+        code,
+        start_date: start,
+        end_date: end,
+      },
       { status: 502 }
     );
   }

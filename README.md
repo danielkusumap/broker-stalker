@@ -47,6 +47,13 @@ Yang terjadi:
 - `nginx` — reverse proxy + basic auth tambahan, publish di `APP_PORT` (9101).
 - `./data` di host di-mount ke `/app/data`, jadi database SQLite tidak hilang saat container di-rebuild.
 
+Database hanya cache. Kalau `/app/data` tidak bisa ditulis (mis. bind mount milik root), aplikasi tetap jalan: cache pindah ke `/tmp/broker-stalker` dan alasannya muncul di log. Cek lewat field `db` di respons `/api/bs2/summary` — isinya path cache yang dipakai, atau `nonaktif`.
+
+```bash
+docker compose logs app | grep bs2/db   # lihat kalau cache sedang fallback
+```
+
+
 
 Perintah harian:
 

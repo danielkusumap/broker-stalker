@@ -26,10 +26,6 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 ENV NODE_ENV=production
-# Build tidak butuh key, tapi kalau ada halaman yang dibuild dengan fetch
-# ke IDX, key ini dipakai. Nilai asli tetap di-inject saat runtime.
-ARG IDX_API_KEY=""
-ENV IDX_API_KEY=${IDX_API_KEY}
 
 RUN npm run build
 
