@@ -1,0 +1,20 @@
+# Override opsional: buka port aplikasi langsung ke host.
+#
+# Pakai HANYA kalau domain diarahkan ke port host (mis. VPS + reverse proxy
+# sendiri yang menembak 127.0.0.1:3000), bukan lewat nginx.
+#
+#   docker compose -f docker-compose.yml -f docker-compose.direct.yml up -d --build
+#
+# Kalau deploy lewat panel (Dokploy/Coolify/dll), file ini TIDAK perlu:
+# panel routing langsung ke port internal container, jadi tidak bentrok
+# dengan proses lain yang sudah memakai port 3000 di host.
+#
+# Cek dulu port-nya bebas:
+#   docker ps --filter "publish=3000"
+#
+# Ganti port lewat APP_DIRECT_PORT di .env kalau 3000 masih terpakai.
+
+services:
+  app:
+    ports:
+      - "${APP_DIRECT_PORT:-3000}:3000"

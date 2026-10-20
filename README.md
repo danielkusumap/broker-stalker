@@ -21,18 +21,32 @@ cp .env.example .env     # isi IDX_API_KEY, BASIC_AUTH_USER, BASIC_AUTH_PASSWORD
 docker compose up -d --build
 ```
 
-Dua pintu masuk, pakai salah satu:
+Dua cara akses, pilih satu sesuai deploy:
 
-- **Port 3000** — aplikasi langsung, dipakai kalau domain diarahkan ke `:3000`. Basic auth aktif di level aplikasi (`proxy.js`).
-- **Port 9101** — lewat nginx (reverse proxy + basic auth). Cocok kalau mau satu port untuk semua.
+**A. Lewat panel (Dokploy/Coolify/dll) — default, tanpa publish port**
 
-Kredensial sama untuk keduanya, jadi tidak ada prompt dobel.
+```bash
+docker compose up -d --build
+```
+
+Arahkan domain di panel ke service **`app`**, port **3000** (port internal container). Panel menghubungkan Traefik langsung ke network Docker, jadi tidak ada port host yang dipakai dan tidak bisa bentrok. Basic auth aktif dari `proxy.js`.
+
+**B. Domain menembak port host (VPS + reverse proxy sendiri)**
+
+```bash
+docker compose -f docker-compose.yml -f docker-compose.direct.yml up -d --build
+```
+
+Ini membuka `APP_DIRECT_PORT` (default `3000`) di host. Arahkan domain ke port itu, atau lebih aman ke nginx di `APP_PORT` (`9101`).
+
+> Kalau muncul `Bind for 0.0.0.0:3000 failed: port is already allocated`, artinya ada proses/container lain di port 3000. Cek dengan `docker ps --filter "publish=3000"`, lalu pakai cara **A**, atau ganti `APP_DIRECT_PORT` ke port yang bebas.
 
 Yang terjadi:
 
-- `app` — Next.js standalone (port 3000).
-- `nginx` — reverse proxy + basic auth tambahan.
+- `app` — Next.js standalone (port 3000, internal).
+- `nginx` — reverse proxy + basic auth tambahan, publish di `APP_PORT` (9101).
 - `./data` di host di-mount ke `/app/data`, jadi database SQLite tidak hilang saat container di-rebuild.
+
 
 Perintah harian:
 

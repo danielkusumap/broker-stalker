@@ -18,10 +18,8 @@ services:
     volumes:
       # Database SQLite persisten: ./data di host <-> /app/data di container.
       - ./data:/app/data
-    ports:
-      # Port yang dipakai domain produksi (mis. https://... → port 3000).
-      # Auth tetap aktif di level aplikasi (proxy.js), jadi aman dibuka langsung.
-      - "${APP_DIRECT_PORT:-3000}:3000"
+    expose:
+      - "3000"
     healthcheck:
       test:
         - CMD
